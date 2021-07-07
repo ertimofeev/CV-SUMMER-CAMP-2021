@@ -1,11 +1,14 @@
-import argparse
-import cv2
+import sys
+import argparse 
+import cv2 as cv
 
-
+#cd C:\Users\Admin\Desktop\summer\CV-SUMMER-CAMP-2021\practice\1_opencv
+#cat_passport -i cat.jpg -m haarcascade_frontalcatface.xml
 def make_cat_passport_image(input_image_path, haar_model_path):
 
     # Read image
-
+    img = cv.imread(input_image_path)
+    #print(img)
     # Convert image to grayscale
 
     # Normalize image intensity
@@ -13,11 +16,15 @@ def make_cat_passport_image(input_image_path, haar_model_path):
     # Resize image
 
     # Detect cat faces using Haar Cascade
-
+    detector = cv.CascadeClassifier(haar_model_path)
+    rects = detector.detectMultiScale(img, scaleFactor=1.1, minNeighbors=5, minSize=(75,75))
+    print(rects)
     # Draw bounding box
 
     # Display result image
-
+    cv.imshow("cat", img)
+    cv.waitKey(0)
+    cv.ddestroyAllWindows();
     # Crop image
 
     # Save result image to file
