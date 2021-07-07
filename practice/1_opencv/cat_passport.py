@@ -47,7 +47,23 @@ def make_cat_passport_image(input_image_path, haar_model_path):
     for (i, (x,y,w,h))in enumerate(rects):
         cv.rectangle(img, (x,y), (x+w, y+w), (0,0,255),2)
         cv.imwrite('Cats_face'.format(i+1)+'.jpg', img[y:y+h,x:x+w])
-    
+
+    # Pasport
+    x = 30
+    y = 47
+    norm_face = cv.resize(face, (202-x, 187-y), interpolation=cv.INTER_CUBIC)
+    passport = cv.imread("pet_passport.png")
+    cv.imshow("passport", passport)
+    h,w,d = norm_face.shape
+    for i in range(h):
+        for j in range(w):
+            for z in range(d):
+                passport[i+y,j+x,z]=norm_face[i,j,z]
+     
+    cv.imshow("passport", passport)
+    cv.waitKey(0)
+    cv.destroyAllWindows();
+    cv.imwrite("pet_passport.png", passport)
     return
 
 
