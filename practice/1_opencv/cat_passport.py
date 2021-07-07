@@ -3,7 +3,7 @@ import argparse
 import cv2 as cv
 
 #cd C:\Users\Admin\Desktop\summer\CV-SUMMER-CAMP-2021\practice\1_opencv
-#cat_passport -i cat.jpg -m haarcascade_frontalcatface.xml
+#cat_passport.py -i cat.jpg -m haarcascade_frontalcatface.xml
 
 def make_cat_passport_image(input_image_path, haar_model_path):
 
@@ -11,13 +11,13 @@ def make_cat_passport_image(input_image_path, haar_model_path):
     img = cv.imread(input_image_path)
     
     # Convert image to grayscale
-    gray = cv.ctvColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
     # Normalize image intensity
     norm_gray = cv.equalizeHist(gray)
     
     # Resize image
-    small = cv.resize(img, (100, 75), interpolation = INTER_CUBIC)
+    small = cv.resize(img, (100, 75), interpolation=cv.INTER_CUBIC)
 
     # Detect cat faces using Haar Cascade
     detector = cv.CascadeClassifier(haar_model_path)
@@ -25,13 +25,17 @@ def make_cat_passport_image(input_image_path, haar_model_path):
     print(rects)
                       
     # Draw bounding box
-    for (i, (x,y,w,h))in enumerate(rects)
+    for (i, (x,y,w,h))in enumerate(rects):
         cv.rectangle(img, (x,y), (x+w, y+w), (0,0,255),2)
-        cv.putText(img, "Cat #".format(i+1), (x,y-10), cv.FRONT_HERSHEY_SIMPLEX, 0.55, (0,0,255), 2)
+        cv.putText(img, "Cat #".format(i+1), (x,y-10), cv.FONT_HERSHEY_SIMPLEX, 0.55, (0,0,255), 2)
         
 
     # Display result image
     cv.imshow("cat", img)
+    cv.imshow("small", small)
+    cv.waitKey(0)
+    cv.imshow("gray", gray)
+    cv.imshow("norm_gray", norm_gray)
     cv.waitKey(0)
     cv.destroyAllWindows();
     
@@ -40,9 +44,9 @@ def make_cat_passport_image(input_image_path, haar_model_path):
     face = img[y:y+h,x:x+w]
         
     # Save result image to file
-    for (i, (x,y,w,h))in enumerate(rects)
+    for (i, (x,y,w,h))in enumerate(rects):
         cv.rectangle(img, (x,y), (x+w, y+w), (0,0,255),2)
-        cv.imwrite(img, "Cats_fase".format(i+1)+".jpg", img[y:y+h,x:x+w])
+        cv.imwrite('Cats_face'.format(i+1)+'.jpg', img[y:y+h,x:x+w])
     
     return
 
